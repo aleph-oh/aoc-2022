@@ -22,7 +22,7 @@ impl Day {
     }
 
     pub fn input_path(&self) -> std::path::PathBuf {
-        std::path::PathBuf::from(format!("../day{}_input.txt", self.0))
+        std::path::PathBuf::from(format!("../../day{}_input.txt", self.0))
     }
 }
 

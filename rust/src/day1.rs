@@ -7,37 +7,23 @@ use std::num::ParseIntError;
 use std::path::Path;
 use crate::lib::Answer;
 
-fn from_path(path: &Path) -> Result<String, io::Error> {
-    let mut file = File::open(path)?;
-    let len = file.metadata()?.len() as usize;
-    let mut contents = String::with_capacity(len);
-    file.read_to_string(&mut contents)?;
+const PATH_STR: &str = "../../day1_input.txt";
+const inp: &str = include_str!("../../day1_input.txt");
 
-    Ok(contents)
-}
-
-fn from_string(s: &str) -> Result<Vec<i64>, ParseIntError> {
+fn from_string(s: &str) -> Vec<i64> {
     let grouped = s.split("\n\n");
-    let converted = grouped.map(|sub|
-        // First, convert each line into a number. Then, sum them.
-        // If a line can't be parsed into a number, the sum fails.
-        sub.trim().split("\n")
-            .map(|s| {
-                s.parse::<i64>()
-            })
-            .fold(
-                Ok(0i64),
-                |acc, res| {
-                    match (acc, res) {
-                        (Ok(n), Ok(m)) => Ok(n + m),
-                        (Ok(_), Err(e)) => Err(e),
-                        (Err(e), _) => Err(e),
-                    }
+    let sums = grouped
+        .map(|sub|
+            // First, convert each line into a number. Then, sum them.
+            // If a line can't be parsed into a number, the sum fails.
+            sub.trim()
+                .lines()
+                .map(|s| {
+                    s.parse::<i64>().expect(&*format!("failed to parse line as number: {}", s))
                 })
-    )
-        .collect::<Result<Vec<i64>, ParseIntError>>()?;
-
-    Ok(converted)
+                .sum()
+        );
+    sums.collect()
 }
 
 fn part1(it: impl Iterator<Item=i64>) -> i64 {
@@ -56,8 +42,8 @@ fn part2(it: impl Iterator<Item=i64>) -> i64 {
 }
 
 pub fn solve(path: &Path) -> Result<Answer, Box<dyn Error>> {
-    let s = from_path(path)?;
-    let sums = from_string(&s)?;
+    assert_eq!(path.to_str().unwrap(), PATH_STR);
+    let sums = from_string(inp);
     let (p1, p2) = (part1(sums.iter().cloned()), part2(sums.iter().cloned()));
     Ok(Answer { part_1: p1, part_2: p2 })
 }
