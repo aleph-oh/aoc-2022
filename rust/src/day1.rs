@@ -1,14 +1,10 @@
 use std::collections::BinaryHeap;
 use std::error::Error;
-use std::fs::File;
-use std::io;
-use std::io::Read;
-use std::num::ParseIntError;
 use std::path::Path;
 use crate::lib::Answer;
 
 const PATH_STR: &str = "../../day1_input.txt";
-const inp: &str = include_str!("../../day1_input.txt");
+const INP: &str = include_str!("../../day1_input.txt");
 
 fn from_string(s: &str) -> Vec<i64> {
     let grouped = s.split("\n\n");
@@ -43,7 +39,7 @@ fn part2(it: impl Iterator<Item=i64>) -> i64 {
 
 pub fn solve(path: &Path) -> Result<Answer, Box<dyn Error>> {
     assert_eq!(path.to_str().unwrap(), PATH_STR);
-    let sums = from_string(inp);
+    let sums = from_string(INP);
     let (p1, p2) = (part1(sums.iter().cloned()), part2(sums.iter().cloned()));
     Ok(Answer { part_1: p1, part_2: p2 })
 }
