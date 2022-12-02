@@ -8,10 +8,13 @@ impl std::fmt::Display for Day {
 }
 
 impl Day {
-    const MIN_DAY: u8 = 1;
-    const MAX_DAY: u8 = 1;
+    pub const ONE: Day = Day(1);
+    pub const TWO: Day = Day(2);
 
-    pub fn from_int(n: u8) -> Result<Self, InvalidDay> {
+    const MIN_DAY: u8 = 1;
+    const MAX_DAY: u8 = 2;
+
+    pub const fn from_int(n: u8) -> Result<Self, InvalidDay> {
         if Day::MIN_DAY <= n && n <= Day::MAX_DAY {
             Ok(Day(n))
         } else {

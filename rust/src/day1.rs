@@ -3,7 +3,6 @@ use std::error::Error;
 use std::path::Path;
 use crate::lib::Answer;
 
-const PATH_STR: &str = "../../day1_input.txt";
 const INP: &str = include_str!("../../day1_input.txt");
 
 fn from_string(s: &str) -> Vec<i64> {
@@ -37,8 +36,7 @@ fn part2(it: impl Iterator<Item=i64>) -> i64 {
     max_3.iter().sum()
 }
 
-pub fn solve(path: &Path) -> Result<Answer, Box<dyn Error>> {
-    assert_eq!(path.to_str().unwrap(), PATH_STR);
+pub fn solve() -> Result<Answer, Box<dyn Error>> {
     let sums = from_string(INP);
     let (p1, p2) = (part1(sums.iter().cloned()), part2(sums.iter().cloned()));
     Ok(Answer { part_1: p1, part_2: p2 })
